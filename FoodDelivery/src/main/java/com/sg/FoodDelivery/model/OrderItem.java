@@ -2,7 +2,16 @@ package com.sg.FoodDelivery.model;
 
 public class OrderItem extends MenuItem{
 
+    private int orderId;
     private int quantity;
+
+
+    public OrderItem(int itemId, int restaurantId, String name, float price, String description, int orderId, int quantity) {
+        super(itemId, restaurantId, name, price, description);
+        this.orderId = orderId;
+        this.quantity = quantity;
+    }
+
 
     public int getItemId() {
         return super.getItemId();
@@ -24,11 +33,11 @@ public class OrderItem extends MenuItem{
 
     public void setName(String name) { super.setName(name); }
 
-    public double getPrice() {
+    public float getPrice() {
         return super.getPrice();
     }
 
-    public void setPrice(double price) {
+    public void setPrice(float price) {
         super.setPrice(price);
     }
 
@@ -43,4 +52,12 @@ public class OrderItem extends MenuItem{
     public int getQuantity() { return quantity; }
 
     public void setQuantity(int quantity) { this.quantity = quantity; }
+
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
 }

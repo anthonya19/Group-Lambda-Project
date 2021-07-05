@@ -2,6 +2,7 @@ package com.sg.FoodDelivery.controller;
 
 import com.sg.FoodDelivery.dao.DriverDao;
 import com.sg.FoodDelivery.model.Driver;
+import com.sg.FoodDelivery.model.Order;
 import com.sg.FoodDelivery.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.management.relation.RelationServiceNotRegisteredException;
+import java.util.List;
 
 @Controller
 @RequestMapping("/driver")
@@ -49,6 +51,11 @@ public class DriverController {
 
     }
 
+    @GetMapping("/orders")
+    @ResponseBody
+    public List<Order> getAvailableOrders(){
+        return dao.viewAvailableOrders();
+    }
 
     public DriverController(DriverDao dao, Service service){
         this.dao = dao;

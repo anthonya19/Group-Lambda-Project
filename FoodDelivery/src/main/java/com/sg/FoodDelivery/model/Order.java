@@ -1,5 +1,5 @@
 package com.sg.FoodDelivery.model;
-
+import java.util.Date;
 import java.util.List;
 
 public class Order {
@@ -9,9 +9,19 @@ public class Order {
     private int driverId;
     private int restaurantId;
     private boolean isDelivered = false;
-    private String date;
+    private Date date;
     private List<OrderItem> orderItems;
-    private double totalPrice;
+    private float totalPrice;
+
+    public Order(int orderId, int clientId, int driverId, int restaurantId, boolean isDelivered, Date date, float totalPrice) {
+        this.orderId = orderId;
+        this.clientId = clientId;
+        this.driverId = driverId;
+        this.restaurantId = restaurantId;
+        this.isDelivered = isDelivered;
+        this.date = date;
+        this.totalPrice = totalPrice;
+    }
 
     public int getOrderId() {
         return orderId;
@@ -53,11 +63,11 @@ public class Order {
         isDelivered = delivered;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -73,7 +83,7 @@ public class Order {
         return totalPrice;
     }
 
-    public void setTotalPrice(double totalPrice) {
+    public void setTotalPrice(float totalPrice) {
         this.totalPrice = totalPrice;
     }
 }

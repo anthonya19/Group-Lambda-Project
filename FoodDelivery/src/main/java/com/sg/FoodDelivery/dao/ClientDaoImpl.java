@@ -53,7 +53,7 @@ public class ClientDaoImpl implements ClientDao{
      */
     private double orderCost(Order order) {
         List<OrderItem> orderItems = order.getOrderItems();
-        double total = 0;
+        float total = 0;
         for(MenuItem item : orderItems) {
             total += item.getPrice();
         }
