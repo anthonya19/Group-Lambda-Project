@@ -8,9 +8,6 @@ public class Restaurant {
     private String name;
     private String password;
     private String address;
-    private List<Order> orders;
-    private List<Rating> ratings;
-    private List<MenuItem> menu;
 
     public int getId() {
         return id;

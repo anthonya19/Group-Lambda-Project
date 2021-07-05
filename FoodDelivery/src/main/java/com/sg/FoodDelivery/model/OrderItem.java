@@ -2,42 +2,49 @@ package com.sg.FoodDelivery.model;
 
 public class OrderItem extends MenuItem{
 
+    private int order_id;
     private int quantity;
 
-    public int getItemId() {
-        return super.getItemId();
+    /**
+     * @param order_id
+     * @param quantity
+     */
+    public OrderItem(int order_id, int quantity)
+    {
+        this.order_id = order_id;
+        this.quantity = quantity;
     }
 
-    public void setItemId(int itemId) {
-        super.setItemId(itemId);
+    /**
+     * @param itemId
+     * @param restaurantId
+     * @param name
+     * @param price
+     * @param description
+     * @param order_id
+     * @param quantity
+     */
+    public OrderItem(int itemId, int restaurantId, String name, float price, String description, int order_id, int quantity)
+    {
+        super(itemId, restaurantId, name, price, description);
+        this.order_id = order_id;
+        this.quantity = quantity;
     }
 
-    public int getRestaurantId() { return super.getRestaurantId(); }
-
-    public void setRestaurantId(int restaurantId) {
-        super.setRestaurantId(restaurantId);
+    /**
+     * @return the order_id
+     */
+    public int getOrder_id()
+    {
+        return order_id;
     }
 
-    public String getName() {
-        return super.getName();
-    }
-
-    public void setName(String name) { super.setName(name); }
-
-    public double getPrice() {
-        return super.getPrice();
-    }
-
-    public void setPrice(double price) {
-        super.setPrice(price);
-    }
-
-    public String getDescription() {
-        return super.getDescription();
-    }
-
-    public void setDescription(String description) {
-        super.setDescription(description);
+    /**
+     * @param order_id the order_id to set
+     */
+    public void setOrder_id(int order_id)
+    {
+        this.order_id = order_id;
     }
 
     public int getQuantity() { return quantity; }
