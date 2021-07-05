@@ -10,7 +10,7 @@ public class Order {
     private int restaurantId;
     private boolean isDelivered = false;
     private String date;
-    private List<MenuItem> orderItems;
+    private List<OrderItem> orderItems;
     private double totalPrice;
 
     public int getOrderId() {
@@ -61,11 +61,11 @@ public class Order {
         this.date = date;
     }
 
-    public List<MenuItem> getOrderItems() {
+    public List<OrderItem> getOrderItems() {
         return orderItems;
     }
 
-    public void setOrderItems(List<MenuItem> orderItems) {
+    public void setOrderItems(List<OrderItem> orderItems) {
         this.orderItems = orderItems;
     }
 

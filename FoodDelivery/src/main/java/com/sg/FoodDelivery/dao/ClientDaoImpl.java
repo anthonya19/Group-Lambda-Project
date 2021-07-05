@@ -1,9 +1,6 @@
 package com.sg.FoodDelivery.dao;
 
-import com.sg.FoodDelivery.model.Client;
-import com.sg.FoodDelivery.model.MenuItem;
-import com.sg.FoodDelivery.model.Order;
-import com.sg.FoodDelivery.model.Rating;
+import com.sg.FoodDelivery.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -40,10 +37,10 @@ public class ClientDaoImpl implements ClientDao{
         order.setOrderId(newId);
 
         final String ORDER_ITEMS = "INSERT INTO order_items(order_id, menu_item_id, quantity) VALUES (?, ? ,?);";
-        List<MenuItem> orderItems = order.getOrderItems();
-        //not sure how to handle the case where there are multiple of the same item
-        for(MenuItem item : orderItems) {
-            jdbc.update(ORDER_ITEMS, order.getOrderId(), item.getItemId(), 1);
+        List<OrderItem> orderItems = order.getOrderItems();
+
+        for(OrderItem item : orderItems) {
+            jdbc.update(ORDER_ITEMS, order.getOrderId(), item.getItemId(), item.getQuantity());
         }
 
         return order;
@@ -55,7 +52,7 @@ public class ClientDaoImpl implements ClientDao{
      * @return total
      */
     private double orderCost(Order order) {
-        List<MenuItem> orderItems = order.getOrderItems();
+        List<OrderItem> orderItems = order.getOrderItems();
         double total = 0;
         for(MenuItem item : orderItems) {
             total += item.getPrice();
