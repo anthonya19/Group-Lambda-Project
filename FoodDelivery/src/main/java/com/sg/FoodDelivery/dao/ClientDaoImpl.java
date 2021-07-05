@@ -62,23 +62,33 @@ public class ClientDaoImpl implements ClientDao{
     }
 
     @Override
-    public boolean viewOrderStatus(Order order) {
-        return false;
+    public void viewOrderDetails(Order order) {
+        final String ORDER_STATUS = "SELECT * FROM orders WHERE id = ?;";
+        jdbc.queryForObject(ORDER_STATUS, new OrderMapper(), order.getOrderId());
     }
 
     @Override
     public List<Order> viewOrders(Client client) {
-        return null;
+        final String VIEW_ORDERS = "SELECT * FROM orders WHERE client_id = ?;";
+        return jdbc.query(VIEW_ORDERS, new OrderMapper(), client.getId());
     }
 
     @Override
-    public Rating rateDriver(Order order) {
-        return null;
+    public void rateDriver(Rating rating) {
+        final String RATE_DRIVER = "INSERT INTO driver_rating(rating, driver_id, description) VALUES (?, ?, ?);";
+        jdbc.update(RATE_DRIVER, rating.getRating(), rating.getUserId(), rating.getDescription());
     }
 
     @Override
-    public Rating rateRestaurant(Order order) {
-        return null;
+    public void rateRestaurant(Rating rating) {
+        final String RATE_RESTAURANT = "INSERT INTO restaurant_rating(rating, driver_id, description) VALUES (?, ?, ?);";
+        jdbc.update(RATE_RESTAURANT, rating.getRating(), rating.getUserId(), rating.getDescription());
+    }
+
+    @Override
+    public List<Rating> viewRatings(Client client) {
+        final String VIEW_RATINGS = "SELECT * FROM client_rating WHERE client_id = ?;";
+        return jdbc.query(VIEW_RATINGS, new RatingMapper(), client.getId());
     }
 
     public static final class ClientMapper implements RowMapper<Client> {
@@ -91,6 +101,35 @@ public class ClientDaoImpl implements ClientDao{
             client.setPassword(rs.getString("password"));
             client.setAddress(rs.getString("address"));
             return client;
+        }
+    }
+
+    public static final class OrderMapper implements RowMapper<Order> {
+
+        @Override
+        public Order mapRow(ResultSet rs, int index) throws SQLException {
+            Order order = new Order();
+            order.setOrderId(rs.getInt("id"));
+            order.setDelivered(rs.getBoolean("is_delivered"));
+            order.setDate(rs.getString("order_date"));
+            order.setTotalPrice(rs.getDouble("total_price"));
+            order.setClientId(rs.getInt("client_id"));
+            order.setDriverId(rs.getInt("driver_id"));
+            order.setRestaurantId(rs.getInt("restaurant_id"));
+            return null;
+        }
+    }
+
+    public static final class RatingMapper implements RowMapper<Rating> {
+
+        @Override
+        public Rating mapRow(ResultSet rs, int index) throws SQLException {
+            Rating rating = new Rating();
+            rating.setRatingId(rs.getInt("id"));
+            rating.setRating(rs.getInt("rating"));
+            rating.setUserId(rs.getInt("client_id"));
+            rating.setDescription(rs.getString("description"));
+            return null;
         }
     }
 }
