@@ -8,7 +8,8 @@ import java.util.List;
 
 public interface DriverDao {
 
-    Driver addDriver(Driver driver);
+    int addDriver(Driver driver);
+    Driver getDriverByUsername(String username);
     List<Order> viewAvailableOrders();
     void acceptOrder(Order order);
     Rating rateClient(Order order);

@@ -1,6 +1,5 @@
 package com.sg.FoodDelivery.model;
 
-import java.util.List;
 
 public class Client {
 
@@ -8,8 +7,6 @@ public class Client {
     private String username;
     private String password;
     private String address;
-    private List<Order> orders;
-    private List<Rating> ratings;
 
     public int getId() {
         return id;
@@ -43,19 +40,4 @@ public class Client {
         this.address = address;
     }
 
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
-
-    public List<Rating> getRatings() {
-        return ratings;
-    }
-
-    public void setRatings(List<Rating> ratings) {
-        this.ratings = ratings;
-    }
 }
