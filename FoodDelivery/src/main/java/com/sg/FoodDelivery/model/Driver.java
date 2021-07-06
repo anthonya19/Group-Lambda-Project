@@ -13,6 +13,11 @@ public class Driver {
         this.password = password;
     }
 
+    public Driver(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     public int getId() {
         return id;
     }
