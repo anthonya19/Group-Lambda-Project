@@ -1,8 +1,6 @@
 package com.sg.FoodDelivery.dao;
 
-import com.sg.FoodDelivery.dao.row_mapper.Order_Items_Mapper;
-import com.sg.FoodDelivery.dao.row_mapper.Orders_Mapper;
-import com.sg.FoodDelivery.dao.row_mapper.Rating_Mapper;
+import com.sg.FoodDelivery.dao.row_mapper.*;
 import com.sg.FoodDelivery.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -29,6 +27,12 @@ public class ClientDaoImpl implements ClientDao{
         client.setId(newId);
 
         return client.getId();
+    }
+
+    @Override
+    public Client getClientByUsername(String username) {
+        String sql = "SELECT * FROM client WHERE username = ?;";
+        return jdbc.queryForObject(sql, new Client_Mapper(), username);
     }
 
     @Override
@@ -65,17 +69,17 @@ public class ClientDaoImpl implements ClientDao{
     }
 
     @Override
-    public void viewOrderDetails(Order order) {
+    public void viewOrderDetails(int orderId) {
         final String ORDER_STATUS = "SELECT * FROM orders WHERE id = ?;";
-        jdbc.queryForObject(ORDER_STATUS, new Orders_Mapper(), order.getOrderId());
+        jdbc.queryForObject(ORDER_STATUS, new Orders_Mapper(), orderId);
     }
 
     @Override
-    public List<Order> viewOrders(Client client) {
+    public List<Order> viewOrders(int clientId) {
         List<Order> orders;
 
         String sql = "SELECT * FROM orders WHERE client_id = ?;";
-        orders = jdbc.query(sql, new Orders_Mapper(), client.getId());
+        orders = jdbc.query(sql, new Orders_Mapper(), clientId);
 
         sql = "select order_id, menu_item_id, restaurant_id, quantity, price, name, description from order_items" +
                 " inner join menu_items on order_items.menu_item_id = menu_items.id"
@@ -101,37 +105,8 @@ public class ClientDaoImpl implements ClientDao{
     }
 
     @Override
-    public List<Rating> viewRatings(Client client) {
+    public List<Rating> viewRatings(int clientId) {
         final String VIEW_RATINGS = "SELECT * FROM client_rating WHERE client_id = ?;";
-        return jdbc.query(VIEW_RATINGS, new Rating_Mapper(), client.getId());
-    }
-
-    public static final class OrderMapper implements RowMapper<Order> {
-
-        @Override
-        public Order mapRow(ResultSet rs, int index) throws SQLException {
-            Order order = new Order();
-            order.setOrderId(rs.getInt("id"));
-            order.setDelivered(rs.getBoolean("is_delivered"));
-            order.setDate(rs.getString("order_date"));
-            order.setTotalPrice(rs.getDouble("total_price"));
-            order.setClientId(rs.getInt("client_id"));
-            order.setDriverId(rs.getInt("driver_id"));
-            order.setRestaurantId(rs.getInt("restaurant_id"));
-            return null;
-        }
-    }
-
-    public static final class RatingMapper implements RowMapper<Rating> {
-
-        @Override
-        public Rating mapRow(ResultSet rs, int index) throws SQLException {
-            Rating rating = new Rating();
-            rating.setRatingId(rs.getInt("id"));
-            rating.setRating(rs.getInt("rating"));
-            rating.setUserId(rs.getInt("client_id"));
-            rating.setDescription(rs.getString("description"));
-            return null;
-        }
+        return jdbc.query(VIEW_RATINGS, new Rating_Mapper(), clientId);
     }
 }
