@@ -7,9 +7,9 @@ import java.util.List;
 public interface ClientDao {
 
     /** Create new client */
-    Client addClient(Client client);
+    int addClient(Client client);
     /** Client places a new order */
-    Order placeOrder(Client client, Order order);
+    Order placeOrder(Order order);
     /** Client views the status of one of their orders */
     void viewOrderDetails(Order order);
     /** Client views all of their orders */
@@ -20,4 +20,5 @@ public interface ClientDao {
     void rateRestaurant(Rating rating);
     /** Client views their ratings */
     List<Rating> viewRatings(Client client);
+
 }

@@ -7,6 +7,13 @@ public class Rating {
     private int rating;
     private String description;
 
+    public Rating(int ratingId, int userId, int rating, String description) {
+        this.ratingId = ratingId;
+        this.userId = userId;
+        this.rating = rating;
+        this.description = description;
+    }
+
     public int getRatingId() {
         return ratingId;
     }

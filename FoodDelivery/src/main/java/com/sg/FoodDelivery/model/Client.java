@@ -7,7 +7,12 @@ public class Client {
     private String password;
     private String address;
 
-
+    public Client(int id, String username, String password, String address) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.address = address;
+    }
 
     public int getId() {
         return id;
