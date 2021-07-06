@@ -7,16 +7,18 @@ import java.util.List;
 public interface ClientDao {
 
     /** Create new client */
-    Client addClient(Client client);
+    int addClient(Client client);
     /** Client places a new order */
-    Order placeOrder(Client client, Order order);
+    Order placeOrder(Order order);
     /** Client views the status of one of their orders */
-    boolean viewOrderStatus(Order order);
+    void viewOrderDetails(Order order);
     /** Client views all of their orders */
     List<Order> viewOrders(Client client);
     /** Client rates the driver from a given order */
-    Rating rateDriver(Order order);
+    void rateDriver(Rating rating);
     /** Client rates the restaurant from a given order */
-    Rating rateRestaurant(Order order);
+    void rateRestaurant(Rating rating);
+    /** Client views their ratings */
+    List<Rating> viewRatings(Client client);
 
 }

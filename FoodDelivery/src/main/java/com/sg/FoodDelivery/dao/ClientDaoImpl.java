@@ -1,5 +1,8 @@
 package com.sg.FoodDelivery.dao;
 
+import com.sg.FoodDelivery.dao.row_mapper.Order_Items_Mapper;
+import com.sg.FoodDelivery.dao.row_mapper.Orders_Mapper;
+import com.sg.FoodDelivery.dao.row_mapper.Rating_Mapper;
 import com.sg.FoodDelivery.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -17,7 +20,7 @@ public class ClientDaoImpl implements ClientDao{
 
     @Override
     @Transactional
-    public Client addClient(Client client) {
+    public int addClient(Client client) {
         final String ADD_CLIENT = "INSERT INTO client(username, address, password) VALUES (?, ?, ?);";
 
         jdbc.update(ADD_CLIENT, client.getUsername(), client.getAddress(), client.getPassword());
@@ -25,12 +28,12 @@ public class ClientDaoImpl implements ClientDao{
         int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
         client.setId(newId);
 
-        return client;
+        return client.getId();
     }
 
     @Override
     @Transactional
-    public Order placeOrder(Client client, Order order) {
+    public Order placeOrder(Order order) {
         final String PLACE_ORDER = "INSERT INTO orders(total_price, client_id, restaurant_id) VALUES (?, ?, ?);";
         jdbc.update(PLACE_ORDER, this.orderCost(order), order.getClientId(), order.getRestaurantId());
         int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
@@ -51,7 +54,7 @@ public class ClientDaoImpl implements ClientDao{
      * @param order
      * @return total
      */
-    private double orderCost(Order order) {
+    private float orderCost(Order order) {
         List<OrderItem> orderItems = order.getOrderItems();
         float total = 0;
         for(MenuItem item : orderItems) {
@@ -62,35 +65,44 @@ public class ClientDaoImpl implements ClientDao{
     }
 
     @Override
-    public boolean viewOrderStatus(Order order) {
-        return false;
+    public void viewOrderDetails(Order order) {
+        final String ORDER_STATUS = "SELECT * FROM orders WHERE id = ?;";
+        jdbc.queryForObject(ORDER_STATUS, new Orders_Mapper(), order.getOrderId());
     }
 
     @Override
     public List<Order> viewOrders(Client client) {
-        return null;
-    }
+        List<Order> orders;
 
-    @Override
-    public Rating rateDriver(Order order) {
-        return null;
-    }
+        String sql = "SELECT * FROM orders WHERE client_id = ?;";
+        orders = jdbc.query(sql, new Orders_Mapper(), client.getId());
 
-    @Override
-    public Rating rateRestaurant(Order order) {
-        return null;
-    }
+        sql = "select order_id, menu_item_id, restaurant_id, quantity, price, name, description from order_items" +
+                " inner join menu_items on order_items.menu_item_id = menu_items.id"
+                +" where order_id = ?;";
 
-    public static final class ClientMapper implements RowMapper<Client> {
-
-        @Override
-        public Client mapRow(ResultSet rs, int index) throws SQLException {
-            Client client = new Client();
-            client.setId(rs.getInt("id"));
-            client.setUsername(rs.getString("username"));
-            client.setPassword(rs.getString("password"));
-            client.setAddress(rs.getString("address"));
-            return client;
+        for(Order order : orders){
+            order.setOrderItems(jdbc.query(sql, new Order_Items_Mapper(), order.getOrderId()));
         }
+
+        return orders;
+    }
+
+    @Override
+    public void rateDriver(Rating rating) {
+        final String RATE_DRIVER = "INSERT INTO driver_rating(rating, driver_id, description) VALUES (?, ?, ?);";
+        jdbc.update(RATE_DRIVER, rating.getRating(), rating.getUserId(), rating.getDescription());
+    }
+
+    @Override
+    public void rateRestaurant(Rating rating) {
+        final String RATE_RESTAURANT = "INSERT INTO restaurant_rating(rating, driver_id, description) VALUES (?, ?, ?);";
+        jdbc.update(RATE_RESTAURANT, rating.getRating(), rating.getUserId(), rating.getDescription());
+    }
+
+    @Override
+    public List<Rating> viewRatings(Client client) {
+        final String VIEW_RATINGS = "SELECT * FROM client_rating WHERE client_id = ?;";
+        return jdbc.query(VIEW_RATINGS, new Rating_Mapper(), client.getId());
     }
 }
