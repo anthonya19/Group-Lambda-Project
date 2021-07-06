@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.management.relation.RelationServiceNotRegisteredException;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -35,21 +36,27 @@ public class DriverController {
         }
     }
 
+    @GetMapping("/login")
+    public String displayLogin(){
+        return "driverLogin";
+    }
 
-    @PostMapping("/login")
-    @ResponseBody
-    public int loginDriver(@RequestBody Driver driver){
+    @PostMapping("/validateLogin")
+    public String loginDriver(HttpServletRequest request){
+
+        Driver driver = new Driver(request.getParameter("username"),
+                                    request.getParameter("password"));
+
         try{
             Driver driverFromDB = dao.getDriverByUsername(driver.getUsername());
             if(service.checkPassword(driver.getPassword(), driverFromDB.getPassword())){
-                return driverFromDB.getId();
+                return "redirect:/driverLogin";
             }
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "invalid password/username");
         }
         catch(EmptyResultDataAccessException e){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No user found with given username");
         }
-
     }
 
     @GetMapping("/orders")
