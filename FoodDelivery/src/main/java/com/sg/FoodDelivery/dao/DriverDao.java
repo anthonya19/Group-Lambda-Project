@@ -11,9 +11,9 @@ public interface DriverDao {
     int addDriver(Driver driver);
     Driver getDriverByUsername(String username);
     List<Order> viewAvailableOrders();
-    void acceptOrder(Order order);
-    Rating rateClient(Order order);
+    void acceptOrder(int driverId, int orderId);
+    void rateClient(Rating rating);
     List<Rating> viewRatings(Driver driver);
-    List<Order> viewCompletedOrders(Driver driver);
+    List<Order> viewCompletedOrders(int driverId);
 
 }

@@ -3,6 +3,7 @@ package com.sg.FoodDelivery.controller;
 import com.sg.FoodDelivery.dao.DriverDao;
 import com.sg.FoodDelivery.model.Driver;
 import com.sg.FoodDelivery.model.Order;
+import com.sg.FoodDelivery.model.Rating;
 import com.sg.FoodDelivery.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -63,6 +64,24 @@ public class DriverController {
     public List<Order> getAvailableOrders(){
         return dao.viewAvailableOrders();
     }
+
+    @PutMapping("/{driverId}/acceptorder")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void acceptOrder(@PathVariable int driverId, @RequestBody int orderId){
+        dao.acceptOrder(driverId, orderId);
+    }
+
+    @GetMapping("/{driverId}/orders")
+    @ResponseBody
+    public List<Order> getDriverOrders(@PathVariable int driverId){
+        return dao.viewCompletedOrders(driverId);
+    }
+
+    @PostMapping("/rateclient")
+    public void rateClient(@RequestBody Rating rating){
+        dao.rateClient(rating);
+    }
+
 
     public DriverController(DriverDao dao, Service service){
         this.dao = dao;
