@@ -74,13 +74,16 @@ public class DriverDaoImpl implements DriverDao{
 
 
     @Override
-    public void acceptOrder(Order order) {
-        
+    public void acceptOrder(int driverId ,int orderId) {
+        String sql = "update orders SET is_delivered = true, driver_id = ? where id = ?;";
+
+        jdbcTemplate.update(sql, driverId, orderId);
     }
 
     @Override
-    public Rating rateClient(Order order) {
-        return null;
+    public void rateClient(Rating rating) {
+        String sql = "INSERT INTO client_rating(rating, client_id, description) VALUES (?, ?, ?);";
+        jdbcTemplate.update(sql, rating.getRating(), rating.getUserId(), rating.getDescription());
     }
 
     @Override
@@ -89,8 +92,21 @@ public class DriverDaoImpl implements DriverDao{
     }
 
     @Override
-    public List<Order> viewCompletedOrders(Driver driver) {
-        return null;
+    public List<Order> viewCompletedOrders(int driverId) {
+
+        List<Order> orders;
+        String sql = "SELECT * FROM orders WHERE driver_id = ?;";
+        orders = jdbcTemplate.query(sql, new Orders_Mapper(), driverId);
+
+        sql = "select order_id, menu_item_id, restaurant_id, quantity, price, name, description from order_items" +
+                " inner join menu_items on order_items.menu_item_id = menu_items.id"
+                +" where order_id = ?;";
+
+        for(Order order : orders){
+            order.setOrderItems(jdbcTemplate.query(sql, new Order_Items_Mapper(), order.getOrderId()));
+        }
+
+        return orders;
     }
 
 }
