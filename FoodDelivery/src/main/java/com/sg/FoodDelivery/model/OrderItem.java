@@ -2,62 +2,52 @@ package com.sg.FoodDelivery.model;
 
 public class OrderItem extends MenuItem{
 
-    private int orderId;
+    private int order_id;
     private int quantity;
 
-
-    public OrderItem(int itemId, int restaurantId, String name, float price, String description, int orderId, int quantity) {
-        super(itemId, restaurantId, name, price, description);
-        this.orderId = orderId;
+    /**
+     * @param order_id
+     * @param quantity
+     */
+    public OrderItem(int order_id, int quantity)
+    {
+        this.order_id = order_id;
         this.quantity = quantity;
     }
 
-
-    public int getItemId() {
-        return super.getItemId();
+    /**
+     * @param itemId
+     * @param restaurantId
+     * @param name
+     * @param price
+     * @param description
+     * @param order_id
+     * @param quantity
+     */
+    public OrderItem(int itemId, int restaurantId, String name, float price, String description, int order_id, int quantity)
+    {
+        super(itemId, restaurantId, name, price, description);
+        this.order_id = order_id;
+        this.quantity = quantity;
     }
 
-    public void setItemId(int itemId) {
-        super.setItemId(itemId);
+    /**
+     * @return the order_id
+     */
+    public int getOrder_id()
+    {
+        return order_id;
     }
 
-    public int getRestaurantId() { return super.getRestaurantId(); }
-
-    public void setRestaurantId(int restaurantId) {
-        super.setRestaurantId(restaurantId);
-    }
-
-    public String getName() {
-        return super.getName();
-    }
-
-    public void setName(String name) { super.setName(name); }
-
-    public float getPrice() {
-        return super.getPrice();
-    }
-
-    public void setPrice(float price) {
-        super.setPrice(price);
-    }
-
-    public String getDescription() {
-        return super.getDescription();
-    }
-
-    public void setDescription(String description) {
-        super.setDescription(description);
+    /**
+     * @param order_id the order_id to set
+     */
+    public void setOrder_id(int order_id)
+    {
+        this.order_id = order_id;
     }
 
     public int getQuantity() { return quantity; }
 
     public void setQuantity(int quantity) { this.quantity = quantity; }
-
-    public int getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
-    }
 }

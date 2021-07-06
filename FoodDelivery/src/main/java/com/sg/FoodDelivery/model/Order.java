@@ -1,5 +1,6 @@
 package com.sg.FoodDelivery.model;
-import java.util.Date;
+
+import java.sql.Date;
 import java.util.List;
 
 public class Order {
@@ -13,7 +14,22 @@ public class Order {
     private List<OrderItem> orderItems;
     private float totalPrice;
 
-    public Order(int orderId, int clientId, int driverId, int restaurantId, boolean isDelivered, Date date, float totalPrice) {
+    public Order()
+    {
+
+    }
+
+    /**
+     * @param orderId
+     * @param clientId
+     * @param driverId
+     * @param restaurantId
+     * @param isDelivered
+     * @param date
+     * @param totalPrice
+     */
+    public Order(int orderId, int clientId, int driverId, int restaurantId, boolean isDelivered, Date date, float totalPrice)
+    {
         this.orderId = orderId;
         this.clientId = clientId;
         this.driverId = driverId;
@@ -63,11 +79,13 @@ public class Order {
         isDelivered = delivered;
     }
 
-    public Date getDate() {
+    public Date getDate()
+    {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Date date)
+    {
         this.date = date;
     }
 
@@ -83,7 +101,8 @@ public class Order {
         return totalPrice;
     }
 
-    public void setTotalPrice(float totalPrice) {
+    public void setTotalPrice(float totalPrice)
+    {
         this.totalPrice = totalPrice;
     }
 }

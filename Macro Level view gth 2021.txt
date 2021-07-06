@@ -1,0 +1,17 @@
+--Front Web stuff
+-Get inputs from user
+-Send data to Middle part
+-minimum avalidation of inputs
+-Possibly use insecure cookies to indicate user and send such to Middle part
+
+--Middle part
+-last data validation before Modle
+-coordinate with other parts to do stuff
+-be end points
+-presumbly the cookie thing or what ever form it takes, can be used to identify the caller and thus what should be filtered for in data base querries
+
+--Modle
+-basic represenations of database entries (usefull?)
+
+--Database
+-stores all data

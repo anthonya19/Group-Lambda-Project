@@ -8,7 +8,20 @@ public class MenuItem {
     private float price;
     private String description;
 
-    public MenuItem(int itemId, int restaurantId, String name, float price, String description) {
+    public MenuItem()
+    {
+
+    }
+
+    /**
+     * @param itemId
+     * @param restaurantId
+     * @param name
+     * @param price
+     * @param description
+     */
+    public MenuItem(int itemId, int restaurantId, String name, float price, String description)
+    {
         this.itemId = itemId;
         this.restaurantId = restaurantId;
         this.name = name;
@@ -44,7 +57,8 @@ public class MenuItem {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(float price)
+    {
         this.price = price;
     }
 
