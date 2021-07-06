@@ -69,9 +69,9 @@ public class ClientDaoImpl implements ClientDao{
     }
 
     @Override
-    public void viewOrderDetails(int orderId) {
+    public Order viewOrderDetails(int orderId) {
         final String ORDER_STATUS = "SELECT * FROM orders WHERE id = ?;";
-        jdbc.queryForObject(ORDER_STATUS, new Orders_Mapper(), orderId);
+        return jdbc.queryForObject(ORDER_STATUS, new Orders_Mapper(), orderId);
     }
 
     @Override

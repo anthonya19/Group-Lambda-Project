@@ -55,8 +55,15 @@ public class ClientController {
 
     @GetMapping("/orders/{id}")
     @ResponseBody
-    public List<Order> getAvailableOrders(@RequestParam int id){
+    public List<Order> getOrders(@RequestParam int clientId){
 
-        return clientDao.viewOrders(id);
+        return clientDao.viewOrders(clientId);
+    }
+
+    @GetMapping("/orders/{id}")
+    @ResponseBody
+    public Order getOrderDetails(@RequestParam int orderId){
+
+        return clientDao.viewOrderDetails(orderId);
     }
 }
