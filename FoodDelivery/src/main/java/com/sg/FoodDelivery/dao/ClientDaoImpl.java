@@ -4,12 +4,9 @@ import com.sg.FoodDelivery.dao.row_mapper.*;
 import com.sg.FoodDelivery.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 @Repository
@@ -71,9 +68,11 @@ public class ClientDaoImpl implements ClientDao{
     }
 
     @Override
-    public Order viewOrderDetails(int orderId) {
-        final String ORDER_STATUS = "SELECT * FROM orders WHERE id = ?;";
-        return jdbc.queryForObject(ORDER_STATUS, new Orders_Mapper(), orderId);
+    public List<OrderItem> viewOrderItems(int orderId) {
+        final String ORDER_ITEMS = "select order_id, menu_item_id, restaurant_id, quantity, price, name, description from order_items" +
+                " inner join menu_items on order_items.menu_item_id = menu_items.id"
+                +" where order_id = ?;";
+        return jdbc.query(ORDER_ITEMS, new Order_Items_Mapper(), orderId);
     }
 
     @Override

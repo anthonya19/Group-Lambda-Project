@@ -13,7 +13,7 @@ public interface ClientDao {
     /** Client places a new order */
     Order placeOrder(Order order);
     /** Client views the status of one of their orders */
-    Order viewOrderDetails(int orderId);
+    List<OrderItem> viewOrderItems(int orderId);
     /** Client views all of their orders */
     List<Order> viewOrders(int clientId);
     /** Client rates the driver from a given order */
