@@ -1,12 +1,12 @@
 function create_new_account() {
-	location.href = "CreateProfile.jsp";
+	location.href = "CreateProfile.html";
 }
 function home_page() {
-	location.href = "Delivery.jsp";
+	location.href = "Delivery.html";
 
 }
 function logIn() {
-	location.href = "Login.jsp";
+	location.href = "Login.html";
 }
 function createDriverform() {
 	var client_form = document.getElementById("client-form");
