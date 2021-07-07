@@ -1,6 +1,5 @@
 package com.sg.FoodDelivery.model;
 
-
 public class Client {
 
     private int id;

@@ -1,17 +1,12 @@
 package com.sg.FoodDelivery.dao;
 
-import com.sg.FoodDelivery.dao.row_mapper.Order_Items_Mapper;
-import com.sg.FoodDelivery.dao.row_mapper.Orders_Mapper;
-import com.sg.FoodDelivery.dao.row_mapper.Rating_Mapper;
+import com.sg.FoodDelivery.dao.row_mapper.*;
 import com.sg.FoodDelivery.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 @Repository
@@ -31,6 +26,12 @@ public class ClientDaoImpl implements ClientDao{
         client.setId(newId);
 
         return client.getId();
+    }
+
+    @Override
+    public Client getClientByUsername(String username) {
+        String sql = "SELECT * FROM client WHERE username = ?;";
+        return jdbc.queryForObject(sql, new Client_Mapper(), username);
     }
 
     @Override
@@ -67,17 +68,19 @@ public class ClientDaoImpl implements ClientDao{
     }
 
     @Override
-    public void viewOrderDetails(Order order) {
-        final String ORDER_STATUS = "SELECT * FROM orders WHERE id = ?;";
-        jdbc.queryForObject(ORDER_STATUS, new Orders_Mapper(), order.getOrderId());
+    public List<OrderItem> viewOrderItems(int orderId) {
+        final String ORDER_ITEMS = "select order_id, menu_item_id, restaurant_id, quantity, price, name, description from order_items" +
+                " inner join menu_items on order_items.menu_item_id = menu_items.id"
+                +" where order_id = ?;";
+        return jdbc.query(ORDER_ITEMS, new Order_Items_Mapper(), orderId);
     }
 
     @Override
-    public List<Order> viewOrders(Client client) {
+    public List<Order> viewOrders(int clientId) {
         List<Order> orders;
 
         String sql = "SELECT * FROM orders WHERE client_id = ?;";
-        orders = jdbc.query(sql, new Orders_Mapper(), client.getId());
+        orders = jdbc.query(sql, new Orders_Mapper(), clientId);
 
         sql = "select order_id, menu_item_id, restaurant_id, quantity, price, name, description from order_items" +
                 " inner join menu_items on order_items.menu_item_id = menu_items.id"
@@ -103,8 +106,8 @@ public class ClientDaoImpl implements ClientDao{
     }
 
     @Override
-    public List<Rating> viewRatings(Client client) {
+    public List<Rating> viewRatings(int clientId) {
         final String VIEW_RATINGS = "SELECT * FROM client_rating WHERE client_id = ?;";
-        return jdbc.query(VIEW_RATINGS, new Rating_Mapper(), client.getId());
+        return jdbc.query(VIEW_RATINGS, new Rating_Mapper(), clientId);
     }
 }
