@@ -82,6 +82,10 @@ public class DriverController {
         dao.rateClient(rating);
     }
 
+    @GetMapping("/{driverId}/ratings")
+    public List<Rating> viewRatings(@PathVariable int driverId){
+        return dao.viewRatings(driverId);
+    }
 
     public DriverController(DriverDao dao, Service service){
         this.dao = dao;
