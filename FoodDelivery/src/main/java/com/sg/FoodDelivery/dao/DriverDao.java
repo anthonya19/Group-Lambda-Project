@@ -13,7 +13,7 @@ public interface DriverDao {
     List<Order> viewAvailableOrders();
     void acceptOrder(int driverId, int orderId);
     void rateClient(Rating rating);
-    List<Rating> viewRatings(Driver driver);
+    List<Rating> viewRatings(int driverId);
     List<Order> viewCompletedOrders(int driverId);
 
 }

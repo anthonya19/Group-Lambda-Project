@@ -3,6 +3,7 @@ package com.sg.FoodDelivery.dao;
 import com.sg.FoodDelivery.dao.row_mapper.Driver_Mapper;
 import com.sg.FoodDelivery.dao.row_mapper.Order_Items_Mapper;
 import com.sg.FoodDelivery.dao.row_mapper.Orders_Mapper;
+import com.sg.FoodDelivery.dao.row_mapper.Rating_Mapper;
 import com.sg.FoodDelivery.model.Driver;
 import com.sg.FoodDelivery.model.Order;
 import com.sg.FoodDelivery.model.OrderItem;
@@ -76,7 +77,6 @@ public class DriverDaoImpl implements DriverDao{
     @Override
     public void acceptOrder(int driverId ,int orderId) {
         String sql = "update orders SET is_delivered = true, driver_id = ? where id = ?;";
-
         jdbcTemplate.update(sql, driverId, orderId);
     }
 
@@ -87,8 +87,9 @@ public class DriverDaoImpl implements DriverDao{
     }
 
     @Override
-    public List<Rating> viewRatings(Driver driver) {
-        return null;
+    public List<Rating> viewRatings(int driverId) {
+        String sql = "SELECT * FROM driver_rating WHERE driver_id = ?;";
+        return jdbcTemplate.query(sql, new Rating_Mapper(), driverId);
     }
 
     @Override
