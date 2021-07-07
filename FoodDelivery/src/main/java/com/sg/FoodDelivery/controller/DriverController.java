@@ -3,6 +3,7 @@ package com.sg.FoodDelivery.controller;
 import com.sg.FoodDelivery.dao.DriverDao;
 import com.sg.FoodDelivery.model.Driver;
 import com.sg.FoodDelivery.model.Order;
+import com.sg.FoodDelivery.model.Rating;
 import com.sg.FoodDelivery.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.management.relation.RelationServiceNotRegisteredException;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -34,27 +36,55 @@ public class DriverController {
         }
     }
 
+    @GetMapping("/login")
+    public String displayLogin(){
+        return "driverLogin";
+    }
 
-    @PostMapping("/login")
-    @ResponseBody
-    public int loginDriver(@RequestBody Driver driver){
+    @PostMapping("/validateLogin")
+    public String loginDriver(HttpServletRequest request){
+
+        Driver driver = new Driver(request.getParameter("username"),
+                                    request.getParameter("password"));
+
         try{
             Driver driverFromDB = dao.getDriverByUsername(driver.getUsername());
             if(service.checkPassword(driver.getPassword(), driverFromDB.getPassword())){
-                return driverFromDB.getId();
+                return "redirect:/driverLogin";
             }
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "invalid password/username");
         }
         catch(EmptyResultDataAccessException e){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No user found with given username");
         }
-
     }
 
     @GetMapping("/orders")
     @ResponseBody
     public List<Order> getAvailableOrders(){
         return dao.viewAvailableOrders();
+    }
+
+    @PutMapping("/{driverId}/acceptorder")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void acceptOrder(@PathVariable int driverId, @RequestBody int orderId){
+        dao.acceptOrder(driverId, orderId);
+    }
+
+    @GetMapping("/{driverId}/orders")
+    @ResponseBody
+    public List<Order> getDriverOrders(@PathVariable int driverId){
+        return dao.viewCompletedOrders(driverId);
+    }
+
+    @PostMapping("/rateclient")
+    public void rateClient(@RequestBody Rating rating){
+        dao.rateClient(rating);
+    }
+
+    @GetMapping("/{driverId}/ratings")
+    public List<Rating> viewRatings(@PathVariable int driverId){
+        return dao.viewRatings(driverId);
     }
 
     public DriverController(DriverDao dao, Service service){

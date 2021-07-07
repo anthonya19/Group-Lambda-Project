@@ -6,7 +6,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import com.sg.FoodDelivery.dao.row_mapper.Order_Items_Mapper;
 import com.sg.FoodDelivery.dao.row_mapper.Orders_Mapper;
 import com.sg.FoodDelivery.model.Order;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public abstract class Parent_DAO
 {
     protected final JdbcTemplate java_database_connection;

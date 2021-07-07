@@ -4,7 +4,9 @@ import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import com.sg.FoodDelivery.model.Order;
 import com.sg.FoodDelivery.model.Restaurant;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class RestaurantDao extends Parent_DAO
 {
 
