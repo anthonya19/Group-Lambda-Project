@@ -1,13 +1,8 @@
 package com.sg.FoodDelivery.dao;
 
-import com.sg.FoodDelivery.dao.row_mapper.Driver_Mapper;
-import com.sg.FoodDelivery.dao.row_mapper.Order_Items_Mapper;
-import com.sg.FoodDelivery.dao.row_mapper.Orders_Mapper;
-import com.sg.FoodDelivery.dao.row_mapper.Rating_Mapper;
+import com.sg.FoodDelivery.dao.row_mapper.*;
+import com.sg.FoodDelivery.model.*;
 import com.sg.FoodDelivery.model.Driver;
-import com.sg.FoodDelivery.model.Order;
-import com.sg.FoodDelivery.model.OrderItem;
-import com.sg.FoodDelivery.model.Rating;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCallbackHandler;
@@ -73,6 +68,36 @@ public class DriverDaoImpl implements DriverDao{
         return orders;
     }
 
+    @Override
+    public List<OrderDisplay> getAvailableOrderDisplay() {
+        List<OrderDisplay> orders;
+
+        String sql = "Select orders.id, client.username, client.address as client_address, restaurant.name, restaurant.address as restaurant_address, total_price from" +
+                " orders inner join client on orders.client_id = client.id" +
+                " inner join restaurant on orders.restaurant_id = restaurant.id" +
+                " where is_delivered = false;";
+
+
+        orders = jdbcTemplate.query(sql, new OrderDisplayMapper());
+
+        return orders;
+    }
+
+    @Override
+    public List<OrderDisplay> getPastOrders(int driverId) {
+        List<OrderDisplay> orders;
+
+        String sql = "Select orders.id, client.username, client.address as client_address, restaurant.name, restaurant.address as restaurant_address, total_price from" +
+                " orders inner join client on orders.client_id = client.id" +
+                " inner join restaurant on orders.restaurant_id = restaurant.id" +
+                " where driver_id = ?;";
+
+
+        orders = jdbcTemplate.query(sql, new OrderDisplayMapper(), driverId);
+
+        return orders;
+    }
+
 
     @Override
     public void acceptOrder(int driverId ,int orderId) {
@@ -109,5 +134,7 @@ public class DriverDaoImpl implements DriverDao{
 
         return orders;
     }
+
+
 
 }

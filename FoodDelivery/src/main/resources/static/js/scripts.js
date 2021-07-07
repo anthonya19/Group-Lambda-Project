@@ -139,3 +139,7 @@ if (restaurant_pwd["value"] != restaurant_pwd2["value"]) {
 		return false;
 	}		
 }
+
+function refresh(){
+    window.location.reload();
+}
