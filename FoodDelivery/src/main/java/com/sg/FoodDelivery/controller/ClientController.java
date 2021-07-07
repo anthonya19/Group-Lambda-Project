@@ -3,6 +3,7 @@ package com.sg.FoodDelivery.controller;
 import com.sg.FoodDelivery.dao.ClientDao;
 import com.sg.FoodDelivery.model.Client;
 import com.sg.FoodDelivery.model.Order;
+import com.sg.FoodDelivery.model.OrderItem;
 import com.sg.FoodDelivery.service.Service;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -62,8 +63,8 @@ public class ClientController {
 
     @GetMapping("/orders/{id}")
     @ResponseBody
-    public Order getOrderDetails(@RequestParam int orderId){
+    public List<OrderItem> getOrderDetails(@RequestParam int orderId){
 
-        return clientDao.viewOrderDetails(orderId);
+        return clientDao.viewOrderItems(orderId);
     }
 }
