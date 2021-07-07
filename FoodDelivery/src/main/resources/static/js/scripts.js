@@ -99,12 +99,13 @@ if (client_pwd["value"] != client_pwd2["value"]) {
 		alert("Passwords Does not Match");
 		//client_login_email.prop("class","form-control is-invalid")
 		return false;
-	}		
+	}
+	return true;
 }
 
 
 function createDriver(){
-var driver_pseudo = document.getElementById("driverpseudo");
+var driver_pseudo = document.getElementById("driverusername");
 var driver_pwd=document.getElementById("driverpwd");
 var driver_pwd2=document.getElementById("driverrepwd");
 if (driver_pseudo["value"] == "" || driver_pwd["value"] == "" ||driver_pwd["value"]==""||driver_pwd2["value"]=="") {
@@ -116,7 +117,8 @@ if (driver_pwd["value"] != driver_pwd2["value"]) {
 		alert("Passwords Does not Match");
 		//client_login_email.prop("class","form-control is-invalid")
 		return false;
-	}		
+	}
+	return true;
 }
 
 
