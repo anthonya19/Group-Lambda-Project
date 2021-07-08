@@ -147,13 +147,12 @@
 						<h3 class="register-heading">Login as a Client</h3>
 						<div class="row register-form">
 							<div class="col-md-6">
-								<form action="clientLogin" id="client-login-form"
-									onsubmit="return clientLogin()" method="post">
+								<form action="client/validateLogin" onsubmit="return clientLogin()" method="post">
 									<!-- -->
 									<div class="form-group">
-										<label for="pseudo">Pseudo:</label> <input type="pseudo"
+										<label for="pseudo">Username:</label> <input type="pseudo"
 											class="form-control" id="client-login-pseudo"
-											placeholder="Enter Your UserName" name="pseudo">
+											placeholder="Enter username" name="username">
 									</div>
 									<div class="form-group">
 										<label for="pwd">Password:</label> <input type="password"
@@ -175,12 +174,11 @@
 						<h3 class="register-heading">Login as a Driver</h3>
 						<div class="row register-form">
 							<div class="col-md-6">
-								<form action="driverLogin" onsubmit="return driverLogin()"
-									method="post">
+								<form action="driver/validateLogin" onsubmit="return driverLogin()" method="post">
 									<div class="form-group">
-										<label for="email">Email:</label> <input type="email"
+										<label for="username">Username:</label> <input type="username"
 											class="form-control" id="driver-login-email"
-											placeholder="Enter email" name="email">
+											placeholder="Enter username" name="username">
 									</div>
 									<div class="form-group">
 										<label for="pwd">Password:</label> <input type="password"
@@ -205,7 +203,7 @@
 								<form action="restaurantLogin"
 									onsubmit="return restaurantLogin()" method="post">
 									<div class="form-group">
-										<label for="email">Email:</label> <input
+										<label for="email">Restaurant Name:</label> <input
 											type="restaurant-login-email" class="form-control"
 											id="restaurant-login-email" placeholder="Enter email"
 											name="email">
@@ -329,4 +327,4 @@
 	<script src="js/scripts.js"></script>
 </body>
 
-</html>;
+</html>

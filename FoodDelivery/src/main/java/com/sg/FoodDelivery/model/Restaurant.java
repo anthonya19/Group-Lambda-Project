@@ -1,11 +1,28 @@
 package com.sg.FoodDelivery.model;
 
+import java.util.List;
+
 public class Restaurant {
 
-    private int id;
-    private String name;
-    private String password;
-    private String address;
+    public int id;
+    public String name;
+    public String password;
+    public String address;
+    public List<MenuItem> menuItems;
+
+    public Restaurant(int id, String name, String address) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+    }
+
+    public List<MenuItem> getMenuItems() {
+        return menuItems;
+    }
+
+    public void setMenuItems(List<MenuItem> menuItems) {
+        this.menuItems = menuItems;
+    }
 
     public int getId() {
         return id;

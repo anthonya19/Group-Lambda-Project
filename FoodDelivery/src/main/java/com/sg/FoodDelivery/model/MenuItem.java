@@ -2,11 +2,11 @@ package com.sg.FoodDelivery.model;
 
 public class MenuItem {
 
-    private int itemId;
-    private int restaurantId;
-    private String name;
-    private float price;
-    private String description;
+    public int itemId;
+    public int restaurantId;
+    public String name;
+    public float price;
+    public String description;
 
     public MenuItem()
     {
@@ -24,6 +24,13 @@ public class MenuItem {
     {
         this.itemId = itemId;
         this.restaurantId = restaurantId;
+        this.name = name;
+        this.price = price;
+        this.description = description;
+    }
+    public MenuItem(int itemId, String name, float price, String description)
+    {
+        this.itemId = itemId;
         this.name = name;
         this.price = price;
         this.description = description;

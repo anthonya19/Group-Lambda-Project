@@ -61,8 +61,8 @@
         <div class="profile-container">
             <div class="profile-sidebar">
                 <div class="desktop-sticky-top">
-                    <h4 id="username">Badis</h4>
-                    <div class="font-weight-600 mb-3 text-muted mt-n2" id="address">2100 Rue Saint-Urbain</div>
+                    <h4 id="username" th:text="${session.clientName}">Client Name</h4>
+                    <div class="font-weight-600 mb-3 text-muted mt-n2" th:text="${session.clientAddress}" id="address">Client Address</div>
                     <hr class="mt-4 mb-4" />
                 </div>
             </div>
@@ -75,27 +75,29 @@
         <table class="table table-striped table-sm">
           <thead>
             <tr>
-              <th scope="col">Order Id</th>
-              <th scope="col">Driver Id</th>
-              <th scope="col">restaurant Id</th>
-              <th scope="col">Status</th>
-              <th scope="col">Date</th>
-			  <th scope="col">Price</th>
+                <th scope="col">Order Id</th>
+                <th scope="col">Client Name</th>
+                <th scope="col">Client Address</th>
+                <th scope="col">Restaurant Name</th>
+                <th scope="col">Restaurant Address</th>
+                <th scope="col">Total Price</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>Driver1</td>
-              <td>Restaurant1</td>
-              <td>Delivered</td>
-              <td>07-07-2021</td>
-			  <td>21CAD</td>
-            </tr>
+          <tr th:each="order : ${orders}">
+              <td th:text="${order.orderId}">id</td>
+              <td th:text="${order.clientName}">Client Username</td>
+              <td th:text="${order.clientAddress}">Client Address</td>
+              <td th:text="${order.restaurantName}">Restaurant Name</td>
+              <td th:text="${order.restaurantAddress}">Restaurant Address</td>
+              <td th:text="${order.totalPrice}">Total Price</td>
+          </tr>
             
           </tbody>
         </table>
       </div>
     </body>
 
-</html>;
+<a href="/client/placeorder" class="btn btn-outline-primary btn-lg">Place Order!</a>
+
+</html>

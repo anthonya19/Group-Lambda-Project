@@ -11,7 +11,7 @@ public interface ClientDao {
     /** Retrieve a client based on username */
     Client getClientByUsername(String username);
     /** Client places a new order */
-    Order placeOrder(Order order);
+    void placeOrder(String restaurantName, int menuItemId, int clientId);
     /** Client views the status of one of their orders */
     List<OrderItem> viewOrderItems(int orderId);
     /** Client views all of their orders */
@@ -22,5 +22,6 @@ public interface ClientDao {
     void rateRestaurant(Rating rating);
     /** Client views their ratings */
     List<Rating> viewRatings(int clientId);
+    List<OrderDisplay> getOrderDisplay(int clientId);
 
 }
