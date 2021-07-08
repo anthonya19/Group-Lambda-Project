@@ -93,13 +93,16 @@ public class ClientController {
         return "test";
     }
 
-    @PostMapping("/placeorder")
-    public String addOrder(HttpServletRequest request, HttpSession session){
-        int itemId = Integer.parseInt(request.getParameter("itemId"));
-        int quantity = Integer.parseInt(request.getParameter("quantity"));
+    @GetMapping("/confirmorder")
+    public String addOrder(String restaurant, Integer menuItemId, HttpSession session){
 
 
-        return "test";
+        int itemId = menuItemId.intValue();
+        Integer clientId = (Integer)session.getAttribute("clientId");
+
+        clientDao.placeOrder(restaurant, itemId, clientId);
+
+        return "redirect:/client/clienthomepage";
     }
 
 

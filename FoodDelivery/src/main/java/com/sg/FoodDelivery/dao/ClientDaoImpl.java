@@ -36,20 +36,35 @@ public class ClientDaoImpl implements ClientDao{
 
     @Override
     @Transactional
-    public Order placeOrder(Order order) {
-        final String PLACE_ORDER = "INSERT INTO orders(total_price, client_id, restaurant_id) VALUES (?, ?, ?);";
-        jdbc.update(PLACE_ORDER, this.orderCost(order), order.getClientId(), order.getRestaurantId());
-        int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
-        order.setOrderId(newId);
+    public void placeOrder(String restaurantName, int menuItemId, int clientId) {
 
-        final String ORDER_ITEMS = "INSERT INTO order_items(order_id, menu_item_id, quantity) VALUES (?, ? ,?);";
-        List<OrderItem> orderItems = order.getOrderItems();
+        String sql = "Select id from restaurant where name = ?;";
+        int restaurantId = jdbc.queryForObject(sql, Integer.class, restaurantName);
 
-        for(OrderItem item : orderItems) {
-            jdbc.update(ORDER_ITEMS, order.getOrderId(), item.getItemId(), item.getQuantity());
-        }
+        sql = "Select price from menu_items where id =?;";
+        float price = jdbc.queryForObject(sql, Float.class, menuItemId);
 
-        return order;
+        sql = "insert into orders(total_price, client_id, restaurant_id) values (?, ?, ?);";
+        jdbc.update(sql, price, clientId, restaurantId);
+        int newOrderId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
+
+        sql = "insert into order_items(order_id, menu_item_id, quantity) values (?, ?, 1);";
+        jdbc.update(sql, newOrderId, menuItemId);
+
+//        final String PLACE_ORDER = "INSERT INTO orders(total_price, client_id, restaurant_id) VALUES (?, ?, ?);";
+//        jdbc.update(PLACE_ORDER, this.orderCost(order), order.getClientId(), order.getRestaurantId());
+//        int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
+//        order.setOrderId(newId);
+//
+//        final String ORDER_ITEMS = "INSERT INTO order_items(order_id, menu_item_id, quantity) VALUES (?, ? ,?);";
+//        List<OrderItem> orderItems = order.getOrderItems();
+//
+//        for(OrderItem item : orderItems) {
+//            jdbc.update(ORDER_ITEMS, order.getOrderId(), item.getItemId(), item.getQuantity());
+//        }
+//
+//        return order;
+        return;
     }
 
     /**

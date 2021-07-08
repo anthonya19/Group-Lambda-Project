@@ -9,7 +9,7 @@ public class Order {
     private int clientId;
     private int driverId;
     private int restaurantId;
-    private boolean isDelivered = false;
+    private boolean isDelivered;
     private Date date;
     private List<OrderItem> orderItems;
     private float totalPrice;
