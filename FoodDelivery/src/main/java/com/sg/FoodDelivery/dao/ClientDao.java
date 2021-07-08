@@ -22,5 +22,6 @@ public interface ClientDao {
     void rateRestaurant(Rating rating);
     /** Client views their ratings */
     List<Rating> viewRatings(int clientId);
+    List<OrderDisplay> getOrderDisplay(int clientId);
 
 }

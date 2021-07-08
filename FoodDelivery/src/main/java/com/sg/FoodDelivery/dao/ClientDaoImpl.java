@@ -110,4 +110,19 @@ public class ClientDaoImpl implements ClientDao{
         final String VIEW_RATINGS = "SELECT * FROM client_rating WHERE client_id = ?;";
         return jdbc.query(VIEW_RATINGS, new Rating_Mapper(), clientId);
     }
+
+    @Override
+    public List<OrderDisplay> getOrderDisplay(int clientId) {
+        List<OrderDisplay> orders;
+
+        String sql = "Select orders.id, client.username, client.address as client_address, restaurant.name, restaurant.address as restaurant_address, total_price from" +
+                " orders inner join client on orders.client_id = client.id" +
+                " inner join restaurant on orders.restaurant_id = restaurant.id" +
+                " where client_id = ?;";
+
+
+        orders = jdbc.query(sql, new OrderDisplayMapper(), clientId);
+
+        return orders;
+    }
 }

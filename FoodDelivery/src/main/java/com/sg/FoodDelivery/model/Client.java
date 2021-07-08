@@ -14,6 +14,17 @@ public class Client {
         this.address = address;
     }
 
+    public Client(String username, String password, String address) {
+        this.username = username;
+        this.password = password;
+        this.address = address;
+    }
+
+    public Client(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     public int getId() {
         return id;
     }
