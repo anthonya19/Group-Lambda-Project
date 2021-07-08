@@ -28,7 +28,6 @@ public class DriverController {
     DriverDao dao;
 
     @PostMapping("/register")
-    @ResponseStatus(HttpStatus.CREATED)
     public String registerDriver(HttpServletRequest request, HttpSession session){
 
         String username = request.getParameter("username");
@@ -39,7 +38,7 @@ public class DriverController {
         try{
             session.setAttribute("driverId", dao.addDriver(driver));
             session.setAttribute("driverName", username);
-            return "DriverHomePage";
+            return "redirect:/driver/driverhomepage";
         }
         catch(DuplicateKeyException e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists");

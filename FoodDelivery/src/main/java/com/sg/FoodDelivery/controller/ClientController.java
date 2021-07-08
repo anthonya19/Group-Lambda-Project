@@ -31,7 +31,6 @@ public class ClientController {
     }
 
     @PostMapping("/register")
-    @ResponseStatus(HttpStatus.CREATED)
     public String registerClient(HttpServletRequest request, HttpSession session) {
 
         String username = request.getParameter("username");
@@ -44,7 +43,7 @@ public class ClientController {
             session.setAttribute("clientId", clientDao.addClient(client));
             session.setAttribute("clientName", username);
             session.setAttribute("clientAddress", address);
-            return "ClientHomePage";
+            return "redirect:/client/clienthomepage";
         }
         catch(DuplicateKeyException e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists");
